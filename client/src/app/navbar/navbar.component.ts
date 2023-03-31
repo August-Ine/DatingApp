@@ -9,11 +9,9 @@ import { AccountService } from '../_services/account.service';
 export class NavbarComponent implements OnInit {
   //model to store user form submission
   model: any = {};
-  //boolean is user logged in
-  loggedIn = false;
 
   //inject the account service to our component to send http requests
-  constructor(private accountService: AccountService) { }
+  constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
   };
@@ -23,11 +21,13 @@ export class NavbarComponent implements OnInit {
     this.accountService.login(this.model).subscribe({
       next: response => {
         console.log(response);
-        this.loggedIn = true;
       },
       error: error => console.log(error)
     })
+  };
 
-  }
+  logout() {
+    this.accountService.logout();
+  };
 
 }
