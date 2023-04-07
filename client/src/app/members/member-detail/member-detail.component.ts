@@ -60,7 +60,6 @@ export class MemberDetailComponent {
     this.memberService.getMember(username).subscribe({
       next: member => {
         this.member = member;
-
         this.galleryImages = this.getImages();
       }
     })
