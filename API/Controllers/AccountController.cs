@@ -51,7 +51,9 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             //search for user in db
-            var user = await _context.Users.SingleOrDefaultAsync(user => user.UserName == loginDto.Username.ToLower());
+            var user = await _context.Users
+                .Include(p => p.Photos)//eager loading photos entity
+                .SingleOrDefaultAsync(user => user.UserName == loginDto.Username.ToLower());
             //no such username
             if (user == null) return Unauthorized("Invalid username");
             //user is found, generate hash of submitted password with stored password salt as key
@@ -66,7 +68,8 @@ namespace API.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.createToken(user)
+                Token = _tokenService.createToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
 
