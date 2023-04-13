@@ -64,6 +64,12 @@ export class PhotoEditorComponent {
         const photo = JSON.parse(response);
         //push photo from api to display it in current list
         this.member?.photos.push(photo);
+        //user's first photo upload, set it to user photo
+        if (photo.isMain && this.user && this.member) {
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);// update user observable's components
+        }
       };
     }
   };
