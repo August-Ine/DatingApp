@@ -22,7 +22,7 @@ namespace API.Helpers
             var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
 
             //get user
-            var user = await repo.GetUserByIdAsync(int.Parse(userId));
+            var user = await repo.GetUserByIdAsync(userId);
 
             //set last seen
             user.LastActive = DateTime.UtcNow;
