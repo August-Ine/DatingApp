@@ -1,6 +1,9 @@
 using API.data;
+using API.Entities;
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,13 +19,20 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+app.UseCors(builder => builder
+.AllowAnyHeader()
+.AllowAnyMethod()
+.AllowCredentials()
+.WithOrigins("https://localhost:4200"));
 
 //authentication  middleware
 app.UseAuthentication();//valid token?
 app.UseAuthorization();//permissions
 
 app.MapControllers();
+//signalR endpoint
+app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 
 //seed users to db
 using var scope = app.Services.CreateScope(); //gives access to all services in program cs
@@ -30,8 +40,11 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedUsers(context);
+    await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE[Connections]");
+    await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)
 {
