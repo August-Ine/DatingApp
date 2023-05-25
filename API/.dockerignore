@@ -1,0 +1,3 @@
+#we don't copy these as they will be created from dotnet restore and dotnet publish cmds
+**/bin
+**/obj

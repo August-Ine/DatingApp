@@ -7,6 +7,12 @@ namespace API.data
 {
     public class Seed
     {
+        public static async Task ClearConnections(DataContext context)
+        {
+            context.Connections.RemoveRange(context.Connections);
+            await context.SaveChangesAsync();
+        }
+
         public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             //check if we already have users in db
@@ -25,11 +31,20 @@ namespace API.data
             };
 
             //seed roles and users
-            roles.ForEach(async role => await roleManager.CreateAsync(role));
+            // ForEach does not understand asynchronous delegates. So the body of the 
+            //ForEach will be run concurrently, and Entity Framework does not support concurrent asynchronous access.
+            //Change the ForEach to a foreach, and you should be good:
+            foreach (var role in roles)
+            {
+                await roleManager.CreateAsync(role);
+            }
 
             foreach (var user in users)
             {
                 user.UserName = user.UserName.ToLower();
+                //cast date type to utc
+                user.Created = DateTime.SpecifyKind(user.Created, DateTimeKind.Utc);
+                user.LastActive = DateTime.SpecifyKind(user.LastActive, DateTimeKind.Utc);
                 await userManager.CreateAsync(user, "Pa$$w0rd"); //creates entry and saves changes
                 await userManager.AddToRoleAsync(user, "Member"); // add member role
             };
