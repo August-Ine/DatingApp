@@ -2,6 +2,9 @@
 
 This repository contains the source code for a dating application built with an Angular front-end, .NET backend, and PostgreSQL database. The application is hosted at [https://da-august.fly.dev/](https://da-august.fly.dev/).
 
+![Main page](./Images/ui_1.png)
+
+
 ## Description
 
 The DatingApp is a web application that allows users to create profiles, browse other users' profiles, and interact with potential matches. The application provides features such as user authentication, profile management, liking/disliking profiles, and messaging.
@@ -11,6 +14,8 @@ The front-end of the application is developed using Angular, a popular TypeScrip
 The back-end of the application is built with .NET, a versatile and powerful framework for building web applications and APIs using C#. It provides a reliable and scalable foundation for handling business logic, data processing, and communication with the database.
 
 The PostgreSQL database is used to store user profiles, preferences, and messaging data. PostgreSQL is a robust and highly customizable open-source relational database management system known for its reliability and advanced features.
+
+![Main page](./Images/ui_2.png)
 
 ## Repository Structure
 
