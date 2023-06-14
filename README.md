@@ -2,7 +2,7 @@
 
 This repository contains the source code for a dating application built with an Angular front-end, .NET backend, and PostgreSQL database. The application is hosted at [https://da-august.fly.dev/](https://da-august.fly.dev/).
 
-![Main page](./Images/ui_1.png)
+![Main page](./Images/HomePage.png)
 
 
 ## Description
@@ -15,7 +15,6 @@ The back-end of the application is built with .NET, a versatile and powerful fra
 
 The PostgreSQL database is used to store user profiles, preferences, and messaging data. PostgreSQL is a robust and highly customizable open-source relational database management system known for its reliability and advanced features.
 
-![Main page](./Images/ui_2.png)
 
 ## Repository Structure
 
@@ -54,6 +53,12 @@ To create a docker containerized postgres database:
 
 5. Access the application:
    - Once the back-end and front-end are running, you can access the DatingApp at [http://localhost:4200/](http://localhost:4200/).
+
+## Register form
+![Main page](./Images/LoginForm.png)
+
+## Photo upload
+![Main page](./Images/PhotoUpload.png)
 
 ## Deployment
 
